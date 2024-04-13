@@ -11,33 +11,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.order_service.OrderRepository;
+
 @Controller
 public class RESTcontroller {
-	public RESTcontroller() {
-	}
+	private final OrderRepository orderRepository;
 
-	public class Order {
-		private Long id;
-
-		public Order(Long id) {
-			this.id = id;
-		}
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
+	public RESTcontroller(OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
 	}
 
 	@GetMapping("/get_orders")
 	@ResponseBody
 	public List<Order> getOrders() {
-		List<Order> orders = new ArrayList<>();
-		orders.add(new Order(1L));
-		orders.add(new Order(2L));
+		List<Order> orders = orderRepository.findAll();
 		return orders;
 	}
 }
